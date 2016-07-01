@@ -52,14 +52,13 @@ public class RestHook {
         if(req.headers().stream().anyMatch(x->x.toLowerCase().equals("x-hook-secret"))){
             res.status(200);
             secret=req.headers("x-hook-secret");
-            res.header("X-Hook-Secret",secret);
+            res.header("x-hook-secret",secret);
             return res;
         }
         else if(req.headers().stream().anyMatch(x->x.toLowerCase().equals("x-hook-signature"))){
             String body = req.body();
             messages.add(body);
             String xHookSignature = req.headers("x-hook-signature");
-            messages.add(req.body());
             try {
                 if (HmacUtilities.validBody(this, body, xHookSignature)) {
                     res.status(200); //OK
