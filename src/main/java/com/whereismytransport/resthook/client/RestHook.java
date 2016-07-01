@@ -48,11 +48,12 @@ public class RestHook {
         this.clientUrl=clientUrl;
     }
 
-    public spark.Response handleHookMessage(Request req, spark.Response res, List<String> messages,List<String> logs) {
+    public spark.Response handleHookMessage(Request req, spark.Response res, List<String> messages,List<String> logs, RestHookRepository repository) {
         if(req.headers().stream().anyMatch(x->x.toLowerCase().equals("x-hook-secret"))){
             res.status(200);
             secret=req.headers("x-hook-secret");
             res.header("x-hook-secret",secret);
+            repository.addOrReplaceRestHook(this);
             return res;
         }
         else if(req.headers().stream().anyMatch(x->x.toLowerCase().equals("x-hook-signature"))){
