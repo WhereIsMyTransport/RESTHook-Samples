@@ -57,10 +57,11 @@ public class RestHook {
         }
         else if(req.headers().stream().anyMatch(x->x.toLowerCase().equals("x-hook-signature"))){
             String body = req.body();
-            messages.add(body);
+            
             String xHookSignature = req.headers("x-hook-signature");
             try {
                 if (HmacUtilities.validBody(this, body, xHookSignature)) {
+                    messages.add(body);
                     res.status(200); //OK
                 } else {
                     res.status(403); //Access denied
