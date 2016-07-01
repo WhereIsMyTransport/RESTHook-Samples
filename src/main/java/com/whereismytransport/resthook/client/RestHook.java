@@ -44,7 +44,7 @@ public class RestHook {
         this.serverUrl=serverUrl;
         this.serverRelativeUrl=serverRelativeUrl;
         this.secret=secret;
-        this.index=index.toString();
+        this.index=index;
         this.clientUrl=clientUrl;
     }
 

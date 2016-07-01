@@ -8,7 +8,7 @@
         </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/../../src/main/webapp" relative="/" />
-          <root url="file://$MODULE_DIR$/../../src/main/java" relative="" />
+          <root url="file://$MODULE_DIR$/../../src/main/java" relative="/" />
         </webroots>
       </configuration>
     </facet>
@@ -20,7 +20,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
     </content>
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: com.sparkjava:spark-core:2.3" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.retrofit2:retrofit:2.0.2" level="project" />

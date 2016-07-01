@@ -23,7 +23,7 @@ public class RestHookTestApi {
     private List<String> logs;
     private List<String> messages;
     private RestHookRepository restHookRepository;
-    private Map<UUID,RestHook> hooks;
+    private Map<String,RestHook> hooks;
 
     private int port;
     private String baseUrl;
@@ -61,7 +61,7 @@ public class RestHookTestApi {
 
         post("/hooks/:id", (req, res) -> {
             logs.add(listToMultilineString(req.headers().stream().map(x->x).collect(Collectors.toList())));
-            UUID id=UUID.fromString(req.params(":id"));
+            String id=req.params(":id");
             return hooks.get(id).handleHookMessage(req,res,messages,logs);
         });
 
@@ -87,7 +87,7 @@ public class RestHookTestApi {
             String path=target.getFile().substring(1);
             RestHook hook=null;
 
-            for (UUID hookKey:hooks.keySet()) {
+            for (String hookKey:hooks.keySet()) {
                 RestHook restHook = hooks.get(hookKey);
                 if(restHook.serverUrl.equals(host) && restHook.serverRelativeUrl.equals(path)){
                     hook=restHook;
