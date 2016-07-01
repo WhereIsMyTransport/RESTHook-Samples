@@ -72,6 +72,8 @@ The use of HMACs, provided that the initial secret exchange is SSL encrypted,
 prevents a number of classes of attacks, but is reliant on clients correctly
 calculating the HMAC and comparing it to the `X-Hook-Signature`
 
+You can find HMAC generation samples for various [languages here.](http://www.jokecamp.com/blog/examples-of-creating-base64-hashes-using-hmac-sha256-in-different-languages/)
+
 ### Dealing with connection failures
 
 For each event, Captain Hook tries five times to `POST` the event to the callback URL 
