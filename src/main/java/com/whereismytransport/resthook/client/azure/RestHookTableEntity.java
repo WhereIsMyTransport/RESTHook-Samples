@@ -15,11 +15,11 @@ public class RestHookTableEntity extends TableServiceEntity {
     public String secret;
     public String serverUrl;
 
-    public UUID getIndex() {
+    public String getIndex() {
         return index;
     }
 
-    public void setIndex(UUID index) {
+    public void setIndex(String index) {
         this.index = index;
     }
 
@@ -27,12 +27,12 @@ public class RestHookTableEntity extends TableServiceEntity {
         return restHookPartitionKey;
     }
 
-    public UUID index;
+    public String index;
     public String relativeServerUrl;
 
     public RestHookTableEntity(){}
 
-    public RestHookTableEntity(UUID index, String secret, String serverUrl, String relativeServerUrl){
+    public RestHookTableEntity(String index, String secret, String serverUrl, String relativeServerUrl){
         this.secret = secret;
         this.serverUrl = serverUrl;
         this.relativeServerUrl = relativeServerUrl;

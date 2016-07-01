@@ -21,7 +21,7 @@ public class RestHook {
     private String clientUrl;
     public String serverUrl;
     public String serverRelativeUrl;
-    public UUID index;
+    public String index;
 
     public String secret;
 
@@ -32,13 +32,13 @@ public class RestHook {
         this.serverUrl = serverUrl;
         this.clientUrl=clientUrl;
         this.serverRelativeUrl = serverRelativeUrl;
-        this.index=UUID.randomUUID();
+        this.index=UUID.randomUUID().toString();
     }
 
     public RestHook(String serverUrl,
                     String serverRelativeUrl,
                     String secret,
-                    UUID index,
+                    String index,
                     String clientUrl)
     {
         this.serverUrl=serverUrl;
