@@ -62,7 +62,7 @@ public class RestHookTestApi {
         post("/hooks/:id", (req, res) -> {
             logs.add(listToMultilineString(req.headers().stream().map(x->x).collect(Collectors.toList())));
             String id=req.params(":id");
-            return hooks.get(id).handleHookMessage(req,res,messages,logs);
+            return hooks.get(id).handleHookMessage(req,res,messages,logs,restHookRepository);
         });
 
         //Instruct client to create a RESThook at the address given as a UTF-8 encoded string in the body.
