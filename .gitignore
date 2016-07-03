@@ -20,7 +20,7 @@
 .idea/gradle.xml
 .idea/libraries
 .gradle
-
+.idea/artifacts/
 # Mongo Explorer plugin:
 .idea/mongoSettings.xml
 

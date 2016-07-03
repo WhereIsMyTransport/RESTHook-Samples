@@ -22,7 +22,7 @@ public class RestHook {
     public String serverUrl;
     public String serverRelativeUrl;
     public String index;
-
+    public String handshakeKey;
     public String secret;
 
     public RestHook(String serverUrl,
@@ -51,6 +51,13 @@ public class RestHook {
     public spark.Response handleHookMessage(Request req, spark.Response res, List<String> messages,List<String> logs, RestHookRepository repository) {
         if(req.headers().stream().anyMatch(x->x.toLowerCase().equals("x-hook-secret"))){
             res.status(200);
+            String handshake=req.headers("x-hook-handshake");
+            if(!handshakeKey.equals(handshake)){
+                res.status(403); //Access denied
+                String responseMessage = "Access denied: x-hook-handshake does not match handshake key.";
+                logs.add(responseMessage);
+                res.body(responseMessage);
+            }
             secret=req.headers("x-hook-secret");
             res.header("x-hook-secret",secret);
             repository.addOrReplaceRestHook(this);
@@ -102,6 +109,8 @@ public class RestHook {
                     logs.add("Input url: " +serverUrl+serverRelativeUrl);
                     logs.add("Token: " +token.access_token);
                     Call<ResponseBody> createHookCall;
+                    handshakeKey=request.handshakeKey;
+
                     if (request instanceof ChannelRestHookRetrofitRequest){
                         createHookCall = restHookService.createRestHook(serverUrl+serverRelativeUrl,
                                 (ChannelRestHookRetrofitRequest)request, "Bearer " + token.access_token);
