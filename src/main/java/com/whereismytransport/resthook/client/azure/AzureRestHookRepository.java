@@ -56,7 +56,7 @@ public class AzureRestHookRepository implements RestHookRepository {
     @Override
     public boolean addOrReplaceRestHook(RestHook hook) {
         try {
-            RestHookTableEntity entity = new RestHookTableEntity(hook.index,hook.secret, hook.serverUrl, hook.serverRelativeUrl);
+            RestHookTableEntity entity = new RestHookTableEntity(hook.index,hook.secret);
             getTable().execute(TableOperation.insertOrReplace(entity));
             return true;
         } catch (StorageException|URISyntaxException  e) {
@@ -76,7 +76,7 @@ public class AzureRestHookRepository implements RestHookRepository {
         ArrayList<RestHook> results=new ArrayList<>();
         try {
             for(RestHookTableEntity result:getTable().execute(query)){
-                    results.add(new RestHook(result.serverUrl,result.relativeServerUrl, result.secret,result.index,this.clientBaseUrl));
+                    results.add(new RestHook(result.index,result.secret));
             }
         } catch (URISyntaxException | StorageException e) {
             for (StackTraceElement stackElement:e.getStackTrace()) {

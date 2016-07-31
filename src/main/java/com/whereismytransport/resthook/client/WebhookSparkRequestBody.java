@@ -9,4 +9,5 @@ public class WebhookSparkRequestBody {
     public String identityServerUrl;
     public String scopes;
     public String targetUrl;
+    public String format;
 }

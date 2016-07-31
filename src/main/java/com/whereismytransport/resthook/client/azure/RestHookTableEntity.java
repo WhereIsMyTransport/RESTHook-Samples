@@ -13,7 +13,7 @@ public class RestHookTableEntity extends TableServiceEntity {
 
     public static final String restHookPartitionKey ="ClientSecrets";
     public String secret;
-    public String serverUrl;
+    public String index;
 
     public String getIndex() {
         return index;
@@ -27,19 +27,16 @@ public class RestHookTableEntity extends TableServiceEntity {
         return restHookPartitionKey;
     }
 
-    public String index;
-    public String relativeServerUrl;
+
 
     public RestHookTableEntity(){}
 
-    public RestHookTableEntity(String index, String secret, String serverUrl, String relativeServerUrl){
+    public RestHookTableEntity(String index, String secret){
         this.secret = secret;
-        this.serverUrl = serverUrl;
-        this.relativeServerUrl = relativeServerUrl;
         this.partitionKey=RestHookTableEntity.restHookPartitionKey;
         this.index=index;
         try {
-            this.rowKey= URLEncoder.encode(serverUrl+relativeServerUrl,"UTF-8");
+            this.rowKey= URLEncoder.encode(index,"UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -55,19 +52,4 @@ public class RestHookTableEntity extends TableServiceEntity {
         this.secret = secret;
     }
 
-    public String getServerUrl() {
-        return serverUrl;
-    }
-
-    public void setServerUrl(String serverUrl) {
-        this.serverUrl = serverUrl;
-    }
-
-    public String getRelativeServerUrl() {
-        return relativeServerUrl;
-    }
-
-    public void setRelativeServerUrl(String relativeServerUrl) {
-        this.relativeServerUrl = relativeServerUrl;
-    }
 }

@@ -3,9 +3,7 @@
  */
 public class RoleEnvironment {
     public static final String azureStorageConnectionString="{{AzureStorageConnectionString}}";
-    public static final String clientId="{{ClientId}}";
-    public static final String clientSecret="{{ClientSecret}}";
     public static String url="{{Url}}";
     public static int port={{Port}};
-    public static String protocol="{{Protocol}}";
+    public static String handshakeSecret="{{HandshakeKey}}";
 }
