@@ -17,22 +17,22 @@ public class RestHookTestApi {
     private List<String> logs;
     private List<String> messages;
     private RestHookRepository restHookRepository;
-    private Map<String,RestHook> hooks;
+    private Map<String, RestHook> hooks;
     private String handshakeKey;
     private int port;
 
 
-    public RestHookTestApi(int port, String baseUrl, RestHookRepository restHookRepository, List<String> logs, List<String> messages,String handshakeKey){
-        this.logs=logs;
-        this.handshakeKey= handshakeKey;
-        this.messages=messages;
-        this.restHookRepository=restHookRepository;
+    public RestHookTestApi(int port, String baseUrl, RestHookRepository restHookRepository, List<String> logs, List<String> messages, String handshakeKey) {
+        this.logs = logs;
+        this.handshakeKey = handshakeKey;
+        this.messages = messages;
+        this.restHookRepository = restHookRepository;
         List<RestHook> restHooks = restHookRepository.getRestHooks();
-        hooks= IntStream.range(0,restHooks.size()).boxed().collect(Collectors.toMap(i->restHooks.get(i).index,i->restHooks.get(i)));
-        this.port=port;
+        hooks = IntStream.range(0, restHooks.size()).boxed().collect(Collectors.toMap(i -> restHooks.get(i).index, i -> restHooks.get(i)));
+        this.port = port;
     }
 
-    public void start(){
+    public void start() {
         //Set the operating port
         port(port);
 
@@ -52,25 +52,24 @@ public class RestHookTestApi {
         });
 
         post("/hooks/:id", (req, res) -> {
-            logs.add(listToMultiLineString(req.headers().stream().map(x->x).collect(Collectors.toList())));
-            String id=req.params(":id");
+            logs.add(listToMultiLineString(req.headers().stream().map(x -> x).collect(Collectors.toList())));
+            String id = req.params(":id");
             RestHook hook;
-            if(hooks.containsKey(id)){
-                hook= hooks.get(id);
-                return hook.handleHookMessage(req,res,messages,logs,restHookRepository);
-            }else{
-                hook=new RestHook(id);
-                return hook.createHook(req, res, messages, logs, hooks,restHookRepository, handshakeKey);
+            if (hooks.containsKey(id)) {
+                hook = hooks.get(id);
+            } else {
+                hook = new RestHook(id);
             }
+            return hook.handleHookMessage(req, res, messages, logs, hooks, restHookRepository, handshakeKey);
         });
     }
 
-    private static String listToMultiLineString(List<String> list){
-        String result="[";
-        for (String item: list) {
-            result+="\""+item+"\"";
-            result+=",";
+    private static String listToMultiLineString(List<String> list) {
+        String result = "[";
+        for (String item : list) {
+            result += "\"" + item + "\"";
+            result += ",";
         }
-        return result.substring(0,result.length()>0?result.length()-1:0)+"]";
+        return result.substring(0, result.length() > 0 ? result.length() - 1 : 0) + "]";
     }
 }

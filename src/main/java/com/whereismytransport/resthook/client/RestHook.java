@@ -26,8 +26,7 @@ public class RestHook {
     }
 
 
-    public spark.Response handleHookMessage(Request req, spark.Response res, List<String> messages, List<String> logs, RestHookRepository repository) {
-
+    public spark.Response handleHookMessage(Request req, spark.Response res, List<String> messages, List<String> logs, Map<String, RestHook> hooks, RestHookRepository repository, String handshakeKey) {
         if (req.headers().stream().anyMatch(x -> x.toLowerCase().equals("x-hook-signature"))) {
             String body = req.body();
             String xHookSignature = req.headers("x-hook-signature");
@@ -49,17 +48,7 @@ public class RestHook {
                 res.status(500); //Internal server error
                 return res;
             }
-        } else {
-            res.status(403);
-            String responseMessage = "Access denied: X-Hook-Signature or X-Hook-Secret is not present in headers.";
-            logs.add(responseMessage);
-            res.body(responseMessage);
-        }
-        return res;
-    }
-
-    public spark.Response createHook(Request req, spark.Response res, List<String> messages, List<String> logs, Map<String, RestHook> hooks, RestHookRepository repository, String handshakeKey) {
-        if (req.headers().stream().anyMatch(x -> x.toLowerCase().equals("x-hook-secret"))) {
+        } else  if (req.headers().stream().anyMatch(x -> x.toLowerCase().equals("x-hook-secret"))) {
             res.status(200);
             String handshake = req.headers("x-hook-handshake");
             if (!handshakeKey.equals(handshake)) {
@@ -73,13 +62,15 @@ public class RestHook {
             repository.addOrReplaceRestHook(this);
             hooks.put(index, this);
             return res;
-        } else {
+        }
+        else {
             res.status(403);
-            String responseMessage = "Access denied: request to new endpoint does not contain a x-hook-secret nor handshake key";
+            String responseMessage = "Access denied: X-Hook-Signature or X-Hook-Secret is not present in headers.";
             logs.add(responseMessage);
             res.body(responseMessage);
-            return res;
         }
+        return res;
     }
+
 }
 
