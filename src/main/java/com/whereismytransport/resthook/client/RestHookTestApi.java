@@ -65,11 +65,16 @@ public class RestHookTestApi {
     }
 
     private static String listToMultiLineString(List<String> list) {
-        String result = "[";
+        StringBuilder result = new StringBuilder("[");
+        boolean first=true;
+
         for (String item : list) {
-            result += "\"" + item + "\"";
-            result += ",";
+            if(!first){
+                result.append(",");
+                first=false;
+            }
+            result.append("\"" + item + "\"");
         }
-        return result.substring(0, result.length() > 0 ? result.length() - 1 : 0) + "]";
+        return result+"]";
     }
 }
