@@ -1,9 +1,0 @@
-/**
- * Created by Nick Cuthbert on 25/04/2016.
- */
-public class RoleEnvironment {
-    public static final String azureStorageConnectionString="{{AzureStorageConnectionString}}";
-    public static String url="{{Url}}";
-    public static int port={{Port}};
-    public static String handshakeSecret="{{HandshakeKey}}";
-}
